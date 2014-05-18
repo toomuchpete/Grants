@@ -11,6 +11,8 @@ gem 'multi_json'
 gem 'declarative_authorization'
 gem 'therubyracer',  platforms: :ruby
 gem 'dalli'
+gem 'font-awesome-rails'
+gem 'bootstrap-sass'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

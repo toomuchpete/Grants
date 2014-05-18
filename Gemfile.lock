@@ -29,6 +29,8 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
     bcrypt (3.1.7)
+    bootstrap-sass (3.1.1.1)
+      sass (~> 3.2)
     builder (3.2.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -42,6 +44,8 @@ GEM
     declarative_authorization (0.5.7)
     erubis (2.7.0)
     execjs (2.0.2)
+    font-awesome-rails (4.1.0.0)
+      railties (>= 3.2, < 5.0)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
@@ -137,9 +141,11 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (~> 3.1.7)
+  bootstrap-sass
   coffee-rails (~> 4.0.0)
   dalli
   declarative_authorization
+  font-awesome-rails
   haml-rails
   jbuilder (~> 2.0)
   jquery-rails
