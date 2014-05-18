@@ -24,3 +24,5 @@ config/secrets.yml
 ## Environment normalisation:
 /.bundle
 /vendor/bundle
+
+config/database.yml
