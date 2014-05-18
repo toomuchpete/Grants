@@ -10,6 +10,7 @@ gem 'haml-rails'
 gem 'multi_json'
 gem 'declarative_authorization'
 gem 'therubyracer',  platforms: :ruby
+gem 'dalli'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
