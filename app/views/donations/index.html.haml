@@ -1,0 +1,25 @@
+%h1 Listing donations
+
+%table
+  %tr
+    %th Amount
+    %th User
+    %th Comments
+    %th Internal notes
+    %th
+    %th
+    %th
+
+  - @donations.each do |donation|
+    %tr
+      %td= donation.amount
+      %td= donation.user
+      %td= donation.comments
+      %td= donation.internal_notes
+      %td= link_to 'Show', donation
+      %td= link_to 'Edit', edit_donation_path(donation)
+      %td= link_to 'Destroy', donation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Donation', new_donation_path

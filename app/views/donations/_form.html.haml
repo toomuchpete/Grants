@@ -1,0 +1,39 @@
+= form_for @donation do |f|
+  - if @donation.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@donation.errors.count, "error")} prohibited this donation from being saved:"
+      %ul
+        - @donation.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :amount
+    = f.text_field :amount
+  - unless current_user
+    .field
+      = f.label :email
+      = text_field_tag :email
+  .field
+    = f.label :card_number
+    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'number'
+  .field
+    = f.label :cvv_number
+    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'cvv'
+  .field
+    = f.label :exp_month
+    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'month'
+  .field
+    = f.label :exp_year
+    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'year'
+  .field
+    = f.label :comments
+    = f.text_area :comments
+  .actions
+    = f.submit 'Save'
+
+= javascript_include_tag('https://js.braintreegateway.com/v1/braintree.js')
+:javascript
+  $(function() {
+    var braintree = Braintree.create("#{ENV['BT_CSE_KEY']}");
+    braintree.onSubmitEncryptForm('new_donation');
+  });

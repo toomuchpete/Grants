@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title AFDC Grants
+    %title AFDC Grants (#{Rails.env})
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
@@ -14,4 +14,8 @@
         = link_to "Sign up", signup_path
         or
         = link_to "log in", login_path
+    - if flash[:alert]
+      .alert.alert-error=flash[:alert]
+    - if flash[:notice]
+      .alert.alert-info=flash[:notice]
     = yield

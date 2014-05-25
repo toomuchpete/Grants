@@ -26,3 +26,4 @@ config/secrets.yml
 /vendor/bundle
 
 config/database.yml
+.env

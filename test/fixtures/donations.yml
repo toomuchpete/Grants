@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  amount: 9.99
+  user_id: 
+  comments: MyText
+  internal_notes: MyText
+
+two:
+  amount: 9.99
+  user_id: 
+  comments: MyText
+  internal_notes: MyText

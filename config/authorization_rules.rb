@@ -4,6 +4,7 @@ authorization do
     has_permission_on :sessions, to: [:new, :create, :destroy]
     has_permission_on :users, to: [:new, :create]
     has_permission_on :products, to: [:index, :show]
+    has_permission_on :donations, to: [:new, :create]
   end
 
   role :admin do

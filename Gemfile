@@ -20,6 +20,9 @@ gem 'sorcery'
 # Products
 gem 'paperclip'
 
+# Payment
+gem 'braintree'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -40,4 +43,5 @@ group :development do
   gem 'binding_of_caller'
   gem 'better_errors'
   gem 'mailcatcher'
+  gem 'dotenv-rails'
 end

@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Amount:
+  = @donation.amount
+%p
+  %b User:
+  = @donation.user
+%p
+  %b Comments:
+  = @donation.comments
+%p
+  %b Internal notes:
+  = @donation.internal_notes
+
+= link_to 'Edit', edit_donation_path(@donation)
+\|
+= link_to 'Back', donations_path
