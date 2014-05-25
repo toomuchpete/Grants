@@ -3,5 +3,15 @@ authorization do
     has_permission_on :homepage, to: [:index]
     has_permission_on :sessions, to: [:new, :create, :destroy]
     has_permission_on :users, to: [:new, :create]
+    has_permission_on :products, to: [:index, :show]
+  end
+
+  role :admin do
+    includes :guest
+    has_permission_on :products, to: [:new, :create, :edit, :update, :destroy]
+  end
+
+  role :god do
+    has_omnipotence
   end
 end

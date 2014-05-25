@@ -1,0 +1,20 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @product.name
+%p
+  = image_tag @product.image.url(:medium)
+%p
+  %b Description:
+  = @product.description
+%p
+  %b Price:
+  = number_to_currency @product.price
+%p
+  %b Quantity:
+  = @product.quantity
+
+= link_to 'Edit', edit_product_path(@product)
+\|
+= link_to 'Back', products_path
