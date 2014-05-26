@@ -1,21 +1,28 @@
 !!!
 %html
   %head
-    %title AFDC Grants (#{Rails.env})
+    %title AFDC Grants
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    .header{style: 'margin-bottom: 10px'}
-      - if current_user
-        Logged in as #{current_user.email}.
-        = link_to "Log out", logout_path
-      - else
-        = link_to "Sign up", signup_path
-        or
-        = link_to "log in", login_path
-    - if flash[:alert]
-      .alert.alert-error=flash[:alert]
-    - if flash[:notice]
-      .alert.alert-info=flash[:notice]
-    = yield
+    #main.container
+      #masthead{style: "background-image: url(#{asset_path 'banner.jpg'});"}
+        = link_to root_path do
+          = image_tag "logo250.png"
+      .row
+        #sidebar.col-md-3
+          %ul.nav.nav-pills.nav-stacked
+            %li.active= link_to "Home", root_path
+            %li=link_to "Donate", new_donation_path
+            - if current_user
+              %li=link_to "Log out", logout_path
+            - else
+              %li=link_to "Log in", login_path
+              %li=link_to "Sign up", signup_path
+        #content.col-md-7
+          - if flash[:alert]
+            .alert.alert-danger=flash[:alert]
+          - if flash[:notice]
+            .alert.alert-info=flash[:notice]
+          = yield

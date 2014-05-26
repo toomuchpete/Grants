@@ -5,35 +5,51 @@
       %ul
         - @donation.errors.full_messages.each do |msg|
           %li= msg
+  .row
+    / Donation Details
+    .col-md-5
+      .form-group
+        = f.label :amount
+        = f.text_field :amount, class: 'form-control'
+      - unless current_user
+        .form-group
+          = f.label :email
+          = text_field_tag :email, '', class: 'form-control'
+      .form-group
+        = f.label :comments
+        = f.text_area :comments, class: 'form-control'
 
-  .field
-    = f.label :amount
-    = f.text_field :amount
-  - unless current_user
-    .field
-      = f.label :email
-      = text_field_tag :email
-  .field
-    = f.label :card_number
-    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'number'
-  .field
-    = f.label :cvv_number
-    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'cvv'
-  .field
-    = f.label :exp_month
-    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'month'
-  .field
-    = f.label :exp_year
-    = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'year'
-  .field
-    = f.label :comments
-    = f.text_area :comments
-  .actions
-    = f.submit 'Save'
+    .col-md-7
+      .form-group
+        %label Cardholder's Name
+        = text_field_tag nil, '', 'data-encrypted-name' => 'name', class: 'form-control'
+      .form-group
+        %label Card Number
+        = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'number', class: 'form-control'
+      .row
+        .col-md-4
+          .form-group
+            %label Exp Month
+            =select_month(Date.today, {add_month_numbers: true, use_short_month: true}, {name: nil, class: 'form-control', 'data-encrypted-name' => 'month'})
+        .col-md-4
+          .form-group
+            %label Exp Year
+            %input.form-control{placeholder: "YYYY", type: "text", 'data-encrypted-name' => 'year'}
+        .col-md-4
+          .form-group
+            %label CVC
+            %input.form-control{autocomplete: 'off', 'data-encrypted-name' => 'cvv', placeholder: 'Ex. 331', class: 'form-control'}
+
+  .form-group
+    #submit-roadblock.alert.alert-warning Loading encryption libraries, please wait...
+    = f.submit 'Donate!', id: 'real-submit', class: 'btn btn-primary hidden'
 
 = javascript_include_tag('https://js.braintreegateway.com/v1/braintree.js')
 :javascript
   $(function() {
+    $('.hidden').hide().removeClass('hidden');
     var braintree = Braintree.create("#{ENV['BT_CSE_KEY']}");
     braintree.onSubmitEncryptForm('new_donation');
+    $('#submit-roadblock').hide();
+    $('#real-submit').show();
   });

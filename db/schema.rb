@@ -11,21 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525181240) do
+ActiveRecord::Schema.define(version: 20140526185202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "donations", force: true do |t|
-    t.decimal  "amount"
+    t.decimal  "amount",         precision: 8, scale: 2
     t.integer  "user_id"
     t.text     "comments"
     t.text     "internal_notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "payment_id"
   end
 
+  add_index "donations", ["payment_id"], name: "index_donations_on_payment_id", using: :btree
   add_index "donations", ["user_id"], name: "index_donations_on_user_id", using: :btree
+
+  create_table "payments", force: true do |t|
+    t.string   "public_id"
+    t.decimal  "amount",           precision: 8, scale: 2
+    t.hstore   "web_request"
+    t.hstore   "merchant_details"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "products", force: true do |t|
     t.string   "name"
