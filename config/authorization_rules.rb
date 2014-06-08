@@ -5,6 +5,7 @@ authorization do
     has_permission_on :users, to: [:new, :create]
     has_permission_on :products, to: [:index, :show]
     has_permission_on :donations, to: [:new, :create]
+    has_permission_on :cart_items, to: [:index, :create, :destroy, :empty, :checkout]
   end
 
   role :admin do

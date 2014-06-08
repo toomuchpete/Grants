@@ -1,0 +1,125 @@
+.page-header
+  %h1
+    AFDC Grants
+    %small Your shopping cart
+
+- if @items.count == 0
+  .well
+    Your cart is empty. :(
+- else
+  =form_tag cart_items_checkout_path, method: 'POST', id: 'checkout' do
+    .text-right
+      = link_to raw("#{fa_icon('trash-o')} Empty this cart"), cart_items_empty_path, class: 'btn btn-sm btn-danger', method: 'POST'
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Item
+          %th Quantity
+          %th Price
+          %th Total
+      %tbody
+        -@items.each do |i|
+          -p = i[:product]
+          %tr
+            %td
+              =link_to fa_icon('trash-o'), cart_item_path(i[:id]), method: 'DELETE'
+              =link_to p.name, p
+              =hidden_field_tag "items[#{i[:id]}][product_id]", p.id
+            %td
+              =i[:quantity]
+              =hidden_field_tag "items[#{i[:id]}][quantity]", i[:quantity]
+            %td=number_to_currency p.price
+            %td=number_to_currency (p.price * i[:quantity])
+        %tr
+          %td{colspan: 3}
+            Your additional, tax-deductible donation
+            =hidden_field_tag 'donation_amount', 0
+          %td
+            %a#donation{href:'#'} Click to add
+        %tr.info
+          %td{colspan: 3}
+            =hidden_field_tag "total_amount", @total_cost
+          %td#total{'data-item-total' => @total_cost}=number_to_currency @total_cost
+
+    %h4 Quick Checkout:
+    .row
+      .col-md-5
+        - unless current_user
+          .form-group
+            %label Email
+            = text_field_tag :email, '', class: 'form-control'
+        .form-group
+          %label Shipping Address
+          = text_area_tag :shipping_address, '', class: 'form-control'
+        .form-group
+          %label Other Comments
+          = text_area_tag :other_comments, '', class: 'form-control'
+
+      .col-md-7
+        .form-group
+          %label Cardholder's Name
+          = text_field_tag nil, '', 'data-encrypted-name' => 'name', class: 'form-control'
+        .form-group
+          %label Card Number
+          = text_field_tag nil, '', autocomplete: 'off', 'data-encrypted-name' => 'number', class: 'form-control'
+        .row
+          .col-md-4
+            .form-group
+              %label Exp Month
+              =select_month(Date.today, {add_month_numbers: true, use_short_month: true}, {name: nil, class: 'form-control', 'data-encrypted-name' => 'month'})
+          .col-md-4
+            .form-group
+              %label Exp Year
+              %input.form-control{placeholder: "YYYY", type: "text", 'data-encrypted-name' => 'year'}
+          .col-md-4
+            .form-group
+              %label CVC
+              %input.form-control{autocomplete: 'off', 'data-encrypted-name' => 'cvv', placeholder: 'Ex. 331', class: 'form-control'}
+
+    .form-group
+      #submit-roadblock.alert.alert-warning Loading encryption libraries, please wait...
+      =submit_tag 'Donate!', id: 'real-submit', class: 'btn btn-primary hidden'
+
+= javascript_include_tag('https://js.braintreegateway.com/v1/braintree.js')
+= javascript_include_tag('//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js')
+:javascript
+  $(function() {
+    $('.hidden').hide().removeClass('hidden');
+    var braintree = Braintree.create("#{ENV['BT_CSE_KEY']}");
+    braintree.onSubmitEncryptForm('checkout');
+    $('#submit-roadblock').hide();
+    $('#real-submit').show();
+
+    $('#donation').editable({
+      type: 'text',
+      value: 0,
+      title: 'Enter the donation amount',
+      emptytext: 'Click to add',
+      emptyclass: '',
+      unsavedclass: '',
+      highlight: false,
+      validate: function(value) {
+        var donation_amount = +value;
+        if (isNaN(donation_amount)) {
+          return "That doesn't look like a number."
+        }
+
+        return {newValue: donation_amount.toFixed(2)};
+      },
+      success: function(response, newValue) {
+        var new_total = parseFloat(newValue) + parseFloat($('#total').data('item-total'));
+        $('#total').text(accounting.formatMoney(new_total));
+        $('#total_amount').val(new_total);
+        $('#donation_amount').val(newValue);
+      },
+      display: function(value) {
+        if (value == 0) {
+          value = 'Click to add';
+        } else {
+          value = accounting.formatMoney(value);
+        }
+        $(this).html(value);
+      }
+    });
+  });
+

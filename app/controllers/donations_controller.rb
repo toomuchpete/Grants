@@ -65,17 +65,10 @@ class DonationsController < ApplicationController
 
     #figure out who this is
     if current_user
-        @donation.user = current_user
+      @donation.user = current_user
     else
-      email = params[:email]
-      email = 'anon@afdc.com' if email.blank?
-      user  = User.find_by_email(email.downcase)
-      unless user
-        user = User.new({email: email.downcase, crypted_password: '', salt: ''})
-        user.save(validate: false) # Otherwise password checks will fail
-      end
+      @donation.user = User.find_or_create_by_email params[:email]
     end
-    @donation.user = user
 
     if @donation.save
       redirect_to root_path, notice: 'Donation was successfully created.'

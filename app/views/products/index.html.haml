@@ -1,25 +1,35 @@
-%h1 Listing products
+/ http://bootsnipp.com/snippets/featured/list-grid-view
+.page-header
+  %h1
+    AFDC Grants
+    %small Buy cool stuff
 
-%table
-  %tr
-    %th Name
-    %th Description
-    %th Price
-    %th Quantity
-    %th
-    %th
-    %th
+- if permitted_to? :create, :products
+  .well.well-sm.text-right
+    =link_to new_product_path, class: 'btn btn-sm btn-primary', role: 'button' do
+      =fa_icon "plus-square"
+      Add a Product
+  .btn-group{style: 'display:none;'}
+    %a#list.btn.btn-default.btn-sm=fa_icon "th"
+    %a#grid.btn.btn-default.btn-sm=fa_icon "th-list"
 
-  - @products.each do |product|
-    %tr
-      %td= product.name
-      %td= product.description
-      %td= product.price
-      %td= product.quantity
-      %td= link_to 'Show', product
-      %td= link_to 'Edit', edit_product_path(product)
-      %td= link_to 'Destroy', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
+#products.row.list-group
+  - @products.each do |p|
+    .item.col-xs-6.col-lg-6.list-group-item
+      .thumbnail
+        =image_tag p.image.url(:medium), style: "height: 200px; width: 300px;"
+        .caption
+          %h4.group.inner.list-group-item-heading=p.name
+          %p.group.inner.list-group-item-text
+            =p.description
+          .row
+            .col-xs-12.col-md-6
+              %p.lead=number_to_currency p.price
+            .col-xs-12.col-md-6
+              =link_to "Buy now!", p, class: 'btn btn-success'
 
-%br
+.row
+  .col-md-4
+    / =image_tag p.image.url(:medium)
+    .text-right
 
-= link_to 'New Product', new_product_path

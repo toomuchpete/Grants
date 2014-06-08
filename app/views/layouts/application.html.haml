@@ -3,6 +3,7 @@
   %head
     %title AFDC Grants
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    '//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css'
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
@@ -13,8 +14,12 @@
       .row
         #sidebar.col-md-3
           %ul.nav.nav-pills.nav-stacked
-            %li.active= link_to "Home", root_path
+            %li= link_to "Home", root_path
+            - if session[:shopping_cart] && session[:shopping_cart].count > 0
+              %li=link_to "Your cart (#{pluralize(session[:shopping_cart].count, 'item')})", cart_items_path
+
             %li=link_to "Donate", new_donation_path
+            %li=link_to "Buy cool stuff", products_path
             - if current_user
               %li=link_to "Log out", logout_path
             - else
