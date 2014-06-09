@@ -134,7 +134,7 @@ class CartItemsController < ApplicationController
         }
       )
     rescue => e
-      return redirect_to new_donation_path, alert: "Transaction succeeded, but saving the local payment detials failed: #{e.message}"
+      return redirect_to donate_path, alert: "Transaction succeeded, but saving the local payment detials failed: #{e.message}"
     end
 
     ### Record the purchase
@@ -146,7 +146,7 @@ class CartItemsController < ApplicationController
     end
 
     unless purchase.save
-      return redirect_to new_donation_path, alert: "Transaction succeeded, but saving the local purchase detials failed."
+      return redirect_to donate_path, alert: "Transaction succeeded, but saving the local purchase detials failed."
     end
 
     ### Add line-items to the purchase

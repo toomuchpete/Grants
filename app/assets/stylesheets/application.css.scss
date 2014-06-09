@@ -14,18 +14,31 @@
  *= require_self
  */
 
+$grants-gray: #504c4b;
+$grants-yellow: #cadb2e;
+$grants-green: #95c941;
+$grants-light_blue: #3fc1cd;
+$grants-dark_blue: #04aade;
+
+/* Bootstrap Variable Overrides */
+$navbar-default-bg: $grants_gray;
+$navbar-height: 150px;
+$navbar-inverse-link-color: $grants-yellow;
+$navbar-inverse-link-hover-color: $grants-green;
+$navbar-inverse-link-active-color: $navbar-inverse-link-hover-color;
+$navbar-border-radius: 0;
+
 @import "bootstrap";
 @import "font-awesome";
 
-#main {
-  margin-top: 25px;
+#main .navbar {
+  margin-bottom: 0;
 }
 
-#masthead {
-  padding: 25px;
-  margin-bottom: 5px;
+.navbar-brand {
+  padding-top: 25px;
 }
 
-#sidebar {
-  margin-top: 40px;
+.navbar-nav > li > a {
+  font-size: ceil(($font-size-base * 1.25));
 }

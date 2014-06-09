@@ -1,3 +1,28 @@
+.row
+  .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-12.hidden-xs
+    #carousel-example-generic.carousel.slide{"data-ride" => "carousel"}
+      %ol.carousel-indicators
+        %li.active{"data-slide-to" => "0", "data-target" => "#carousel-example-generic"}
+        %li{"data-slide-to" => "1", "data-target" => "#carousel-example-generic"}
+        %li{"data-slide-to" => "2", "data-target" => "#carousel-example-generic"}
+      .carousel-inner
+        .item.active
+          =image_tag('http://lorempixel.com/750/460/sports/4')
+          .carousel-caption
+            SPORTS
+        .item
+          =image_tag('http://lorempixel.com/750/460/sports/5')
+          .carousel-caption
+            MORE SPORTS
+        .item
+          =image_tag('http://lorempixel.com/750/460/animals/9/')
+          .carousel-caption
+            ANIMALS
+      %a.left.carousel-control{"data-slide" => "prev", href: "#carousel-example-generic"}
+        %span.glyphicon.glyphicon-chevron-left
+      %a.right.carousel-control{"data-slide" => "next", href: "#carousel-example-generic"}
+        %span.glyphicon.glyphicon-chevron-right
+
 .page-header
   %h1 AFDC Grants
 

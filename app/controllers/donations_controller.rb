@@ -21,7 +21,7 @@ class DonationsController < ApplicationController
       donation_amount = Float(donation_params[:amount])
       raise "Can't donate negative money, obviously." unless donation_amount > 0
     rescue
-      return redirect_to new_donation_path, alert: "'#{donation_params[:amount]}' isn't a valid donation amount"
+      return redirect_to donate_path, alert: "'#{donation_params[:amount]}' isn't a valid donation amount"
     end
 
     cc_result = Braintree::Transaction.sale(
@@ -38,7 +38,7 @@ class DonationsController < ApplicationController
       }
     )
 
-    return redirect_to new_donation_path, alert: cc_result.message unless cc_result.success?
+    return redirect_to donate_path, alert: cc_result.message unless cc_result.success?
 
     begin
       payment = Payment.create!(
@@ -56,7 +56,7 @@ class DonationsController < ApplicationController
         }
       )
     rescue => e
-      return redirect_to new_donation_path, alert: "Transaction succeeded, but saving the local payment detials failed: #{e.message}"
+      return redirect_to donate_path, alert: "Transaction succeeded, but saving the local payment detials failed: #{e.message}"
     end
 
     @donation         = Donation.new(donation_params)

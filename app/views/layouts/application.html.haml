@@ -5,29 +5,46 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = stylesheet_link_tag    '//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css'
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag 'https://js.braintreegateway.com/v1/braintree.js'
     = csrf_meta_tags
   %body
-    #main.container
-      #masthead{style: "background-image: url(#{asset_path 'banner.jpg'});"}
-        = link_to root_path do
-          = image_tag "logo250.png"
-      .row
-        #sidebar.col-md-3
-          %ul.nav.nav-pills.nav-stacked
-            %li= link_to "Home", root_path
-            - if session[:shopping_cart] && session[:shopping_cart].count > 0
-              %li=link_to "Your cart (#{pluralize(session[:shopping_cart].count, 'item')})", cart_items_path
-
-            %li=link_to "Donate", new_donation_path
-            %li=link_to "Buy cool stuff", products_path
-            - if current_user
-              %li=link_to "Log out", logout_path
-            - else
-              %li=link_to "Log in", login_path
-              %li=link_to "Sign up", signup_path
-        #content.col-md-7
-          - if flash[:alert]
-            .alert.alert-danger=flash[:alert]
-          - if flash[:notice]
-            .alert.alert-info=flash[:notice]
-          = yield
+    #main
+      %nav.navbar.navbar-inverse{role: "navigation"}
+        .container
+          / Brand and toggle get grouped for better mobile display
+          .navbar-header
+            %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", type: "button"}
+              %span.sr-only Toggle navigation
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            =link_to root_path, class: 'navbar-brand' do
+              =image_tag 'rect_logo200.png'
+          / Collect the nav links, forms, and other content for toggling
+          #bs-example-navbar-collapse-1.collapse.navbar-collapse
+            %ul.nav.navbar-nav
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                  About
+                  %b.caret
+                %ul.dropdown-menu
+                  %li=link_to 'AFDC Grants', '/about'
+                  %li=link_to 'The Need', '/need'
+                  %li=link_to 'Our Stories', '/stories'
+              %li=link_to 'Contact', '/contact'
+              %li=link_to 'Buy Cool Stuff', products_path
+              %li=link_to 'Donate', donate_path
+      %p.text-right
+        - if current_user
+          Logged in as #{current_user.email};
+          =link_to "Log out", logout_path
+        - else
+          =link_to "Log in", login_path
+          or
+          =link_to "Sign up", signup_path
+      - if flash[:alert]
+        .alert.alert-danger=flash[:alert]
+      - if flash[:notice]
+        .alert.alert-info=flash[:notice]
+      .container
+        = yield
