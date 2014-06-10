@@ -13,6 +13,7 @@ gem 'therubyracer',  platforms: :ruby
 gem 'dalli'
 gem 'font-awesome-rails'
 gem 'bootstrap-sass'
+gem 'prismic.io', require: 'prismic'
 
 # User Authentication
 gem 'sorcery'
