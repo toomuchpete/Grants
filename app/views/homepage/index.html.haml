@@ -1,27 +1,33 @@
-.row
-  .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-12.hidden-xs
-    #carousel-example-generic.carousel.slide{"data-ride" => "carousel"}
-      %ol.carousel-indicators
-        %li.active{"data-slide-to" => "0", "data-target" => "#carousel-example-generic"}
-        %li{"data-slide-to" => "1", "data-target" => "#carousel-example-generic"}
-        %li{"data-slide-to" => "2", "data-target" => "#carousel-example-generic"}
-      .carousel-inner
-        .item.active
-          =image_tag('http://lorempixel.com/750/460/sports/4')
-          .carousel-caption
-            SPORTS
-        .item
-          =image_tag('http://lorempixel.com/750/460/sports/5')
-          .carousel-caption
-            MORE SPORTS
-        .item
-          =image_tag('http://lorempixel.com/750/460/animals/9/')
-          .carousel-caption
-            ANIMALS
-      %a.left.carousel-control{"data-slide" => "prev", href: "#carousel-example-generic"}
-        %span.glyphicon.glyphicon-chevron-left
-      %a.right.carousel-control{"data-slide" => "next", href: "#carousel-example-generic"}
-        %span.glyphicon.glyphicon-chevron-right
+- if @carousels.count > 0
+  .row
+    .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-12.hidden-xs
+      #carousel-example-generic.carousel.slide{"data-ride" => "carousel"}
+        %ol.carousel-indicators
+          - (0..@carousels.count-1).each do |c|
+            - active_class = (c == 0 ? 'active' : '')
+            %li{"data-slide-to" => "#{c}", "data-target" => "#carousel-example-generic", class: active_class}
+
+        .carousel-inner
+          - is_active = true
+          - @carousels.each do |c|
+            - next unless c['carousel-image.image']
+            - active_class = ''
+            - if is_active
+              - is_active = false
+              - active_class = 'active'
+            .item{class: active_class}
+              =c['carousel-image.image'].as_html.html_safe
+              - next unless c['carousel-image.title'] || c['carousel-image.caption']
+              .carousel-caption
+                - if c['carousel-image.title']
+                  =c['carousel-image.title'].as_html(prismic_link_resolver).html_safe
+                - if c['carousel-image.caption']
+                  =c['carousel-image.caption'].as_html(prismic_link_resolver).html_safe
+
+        %a.left.carousel-control{"data-slide" => "prev", href: "#carousel-example-generic"}
+          %span.glyphicon.glyphicon-chevron-left
+        %a.right.carousel-control{"data-slide" => "next", href: "#carousel-example-generic"}
+          %span.glyphicon.glyphicon-chevron-right
 
 .page-header
   %h1 AFDC Grants
@@ -29,4 +35,4 @@
 - @documents.each do |doc|
   .prismic-content
     %h2=doc['article.title'].as_text
-    =doc['article.content'].as_html(@link_resolver).html_safe
+    =doc['article.content'].as_html(prismic_link_resolver).html_safe

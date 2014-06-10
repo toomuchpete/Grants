@@ -15,4 +15,5 @@ Rails.application.routes.draw do
 
   root 'homepage#index'
 
+  get '/:prismic_id/:prismic_slug' => 'homepage#prismic', as: 'prismic_document'
 end

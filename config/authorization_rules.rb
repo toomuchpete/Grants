@@ -1,6 +1,6 @@
 authorization do
   role :guest do
-    has_permission_on :homepage, to: [:index]
+    has_permission_on :homepage, to: [:index, :prismic]
     has_permission_on :sessions, to: [:new, :create, :destroy]
     has_permission_on :users, to: [:new, :create]
     has_permission_on :products, to: [:index, :show]

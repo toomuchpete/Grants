@@ -1,0 +1,9 @@
+- title = @document['article.title'] ? @document['article.title'].as_text : 'AFDC Grants'
+
+.page-header
+  %h1
+    =title
+    - if @document['article.explicittitle']
+      %small=@document['article.explicittitle'].as_text
+
+=@document['article.content'].as_html(prismic_link_resolver).html_safe
