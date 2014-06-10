@@ -26,6 +26,8 @@ module App
       generate.assets         false
       generate.test_framework nil
     end
+
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end
 

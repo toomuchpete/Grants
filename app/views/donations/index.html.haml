@@ -1,25 +1,29 @@
-%h1 Listing donations
 
-%table
-  %tr
-    %th Amount
-    %th User
-    %th Comments
-    %th Internal notes
-    %th
-    %th
-    %th
+.row
+  .col-md-4
+    .well.text-center
+      %h4=number_to_currency @donation_amounts[:week]
+      %h3 This Week
+  .col-md-4
+    .well.text-center
+      %h4=number_to_currency @donation_amounts[:month]
+      %h3 This Month
+  .col-md-4
+    .well.text-center
+      %h4=number_to_currency @donation_amounts[:total]
+      %h3 All Time
 
-  - @donations.each do |donation|
+%table.table.table-striped
+  %thead
     %tr
-      %td= donation.amount
-      %td= donation.user
-      %td= donation.comments
-      %td= donation.internal_notes
-      %td= link_to 'Show', donation
-      %td= link_to 'Edit', edit_donation_path(donation)
-      %td= link_to 'Destroy', donation, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Donation', donate_path
+      %th Date
+      %th Time
+      %th Donation From
+      %th Amount
+  %tbody
+    - @donations.each do |donation|
+      %tr
+        %td= donation.created_at.in_time_zone.strftime('%b %d, %Y')
+        %td= donation.created_at.in_time_zone.strftime('%I:%M %P')
+        %td= donation.user.email
+        %td= number_to_currency donation.amount

@@ -11,6 +11,7 @@ authorization do
   role :admin do
     includes :guest
     has_permission_on :products, to: [:new, :create, :edit, :update, :destroy]
+    has_permission_on :donations, to: [:index, :edit, :update]
   end
 
   role :god do

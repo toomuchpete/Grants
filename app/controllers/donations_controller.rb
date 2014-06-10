@@ -2,7 +2,12 @@ class DonationsController < ApplicationController
   before_action :set_donation, only: [:show, :edit, :update, :destroy]
 
   def index
-    @donations = Donation.all
+    @donation_amounts = {
+      week:  Donation.where('created_at > ?', Time.now.at_beginning_of_week).sum(:amount),
+      month: Donation.where('created_at > ?', Time.now.at_beginning_of_month).sum(:amount),
+      total: Donation.sum(:amount)
+    }
+    @donations  = Donation.order('created_at desc').limit(100)
   end
 
   def show
