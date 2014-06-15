@@ -14,6 +14,7 @@ gem 'dalli'
 gem 'font-awesome-rails'
 gem 'bootstrap-sass'
 gem 'prismic.io', require: 'prismic'
+gem 'dotenv-rails'
 
 # User Authentication
 gem 'sorcery'
@@ -49,5 +50,4 @@ group :development do
   gem 'binding_of_caller'
   gem 'better_errors'
   gem 'mailcatcher'
-  gem 'dotenv-rails'
 end
