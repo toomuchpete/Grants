@@ -39,6 +39,11 @@ gem 'unicorn'
 
 group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'capistrano', '>=3.1'
+  gem 'capistrano-bundler', '>=1.1.0'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+
   gem 'spring'
   gem 'pry'
   gem 'binding_of_caller'

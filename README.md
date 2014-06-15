@@ -24,3 +24,11 @@ This installation has several dependencies:
       - \connect afdc_grants_test;
       - CREATE EXTENSION hstore;
       - \q
+
+
+1. Install Postgres 9.3 with postgres-contrib (sudo)
+2. Install Memcached (sudo)
+2. Install Ruby 2.1.1 (user)
+3. Create the user (postgres)
+4. Follow the instructions here: http://dwradcliffe.com/2013/01/10/install-hstore-to-default-template.html (postgres)
+5. Install nginx
